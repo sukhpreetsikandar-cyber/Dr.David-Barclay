@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. David Barclay & Associates | The Teeth Architect Dandenong</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --medical-teal: #0d5c63;
+            --medical-gold: #b89150;
+            --medical-dark: #121212;
+            --medical-soft: #f8fafc;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: white;
+            color: var(--medical-dark);
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, .serif {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* SPA Page Transitions */
+        .page-content {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.5s ease-out;
+        }
+
+        .page-content.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .img-zoom-container {
+            overflow: hidden;
+            border-radius: 1.5rem;
+            position: relative;
+        }
+        .img-zoom-container img {
+            transition: transform 1.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .img-zoom-container:hover img {
+            transform: scale(1.1);
+        }
+
+        .section-tag {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--medical-gold);
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            border-left: 3px solid var(--medical-gold);
+            padding-left: 1rem;
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #0d5c63, #b89150);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Form styling */
+        input, select, textarea {
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--medical-teal);
+            box-shadow: 0 0 0 4px rgba(13, 92, 99, 0.1);
+            outline: none;
+        }
+
+        /* Custom animation for badges */
+        @keyframes pulse-gold {
+            0% { box-shadow: 0 0 0 0 rgba(184, 145, 80, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(184, 145, 80, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(184, 145, 80, 0); }
+        }
+        .pulse-btn {
+            animation: pulse-gold 2s infinite;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Professional Top Header -->
+    <div class="bg-slate-900 text-white py-3 px-6 lg:px-12 text-[10px] font-bold tracking-widest uppercase flex flex-wrap justify-between items-center z-[70] relative border-b border-white/5">
+        <div class="flex gap-8">
+            <span class="flex items-center gap-2"><i class="fa-solid fa-phone text-gold"></i> (03) 9792 2639</span>
+            <span class="hidden sm:flex items-center gap-2"><i class="fa-solid fa-location-dot text-gold"></i> 9 Stud Rd, Dandenong VIC</span>
+        </div>
+        <div class="flex gap-6 items-center">
+            <span class="text-teal-400 hidden md:inline italic">Now Accepting Medicare Child Dental Benefits</span>
+            <div class="flex gap-4 border-l border-white/10 pl-6">
+                <a href="#" class="hover:text-gold transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" class="hover:text-gold transition-colors"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation (Expert Level) -->
+    <nav id="main-nav" class="sticky top-0 w-full z-50 bg-white/95 backdrop-blur-md py-4 px-6 lg:px-12 shadow-sm">
+        <div class="max-w-[1600px] mx-auto flex justify-between items-center">
+            <!-- Brand -->
+            <div class="flex items-center gap-4 cursor-pointer group" onclick="showPage('home')">
+                <div class="w-12 h-12 bg-[#0d5c63] flex items-center justify-center rounded-sm text-white group-hover:bg-slate-900 transition-all duration-500">
+                    <span class="serif text-2xl font-bold">B</span>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-2xl font-bold serif tracking-tight text-slate-900 leading-none">Dr. David Barclay</span>
+                    <span class="text-[8px] tracking-[0.5em] font-bold text-teal-700 uppercase">Mastery in Dentistry</span>
+                </div>
+            </div>
+
+            <!-- Mega Menu Links -->
+            <div class="hidden lg:flex gap-8 items-center font-bold text-[10px] tracking-widest uppercase text-slate-700">
+                <div class="relative group h-full py-4">
+                    <button class="hover:text-teal-700 flex items-center gap-1">Expertise <i class="fa-solid fa-chevron-down text-[8px] transition-transform group-hover:rotate-180"></i></button>
+                    <!-- Dropdown -->
+                    <div class="absolute top-full left-0 w-64 bg-white shadow-2xl rounded-xl border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 p-4 translate-y-2 group-hover:translate-y-0">
+                        <div class="space-y-1">
+                            <a href="javascript:void(0)" onclick="showPage('general')" class="block p-3 hover:bg-slate-50 rounded-lg transition-colors">General Care</a>
+                            <a href="javascript:void(0)" onclick="showPage('restorative')" class="block p-3 hover:bg-slate-50 rounded-lg transition-colors">Restorative Architecture</a>
+                            <a href="javascript:void(0)" onclick="showPage('cosmetic')" class="block p-3 hover:bg-slate-50 rounded-lg transition-colors">Cosmetic Suite</a>
+                            <a href="javascript:void(0)" onclick="showPage('pediatric')" class="block p-3 hover:bg-slate-50 rounded-lg transition-colors">Kids & Anxiety</a>
+                        </div>
+                    </div>
+                </div>
+                <a href="javascript:void(0)" onclick="showPage('tech')" class="hover:text-teal-700">Technology</a>
+                <a href="javascript:void(0)" onclick="showPage('about')" class="hover:text-teal-700">The Practice</a>
+                <a href="javascript:void(0)" onclick="showPage('resources')" class="hover:text-teal-700">Patient Hub</a>
+                <a href="javascript:void(0)" onclick="showPage('contact')" class="hover:text-teal-700">Find Us</a>
+                
+                <button onclick="showPage('contact')" class="pulse-btn bg-[#0d5c63] text-white px-8 py-4 rounded-sm hover:bg-slate-900 transition-all shadow-lg ml-4">Book Clinical Consultation</button>
+            </div>
+
+            <button class="lg:hidden text-2xl text-slate-900" onclick="toggleMobileMenu()"><i class="fa-solid fa-bars-staggered"></i></button>
+        </div>
+    </nav>
+
+    <!-- 1. HOME PAGE -->
+    <main id="page-home" class="page-content active">
+        <!-- High-Impact Hero -->
+        <header class="relative h-[95vh] flex items-center overflow-hidden bg-slate-100">
+            <div class="absolute inset-0">
+                <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80&w=2000" class="w-full h-full object-cover brightness-95" alt="Master Clinic">
+                <div class="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent"></div>
+            </div>
+            
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="max-w-4xl space-y-10">
+                    <span class="section-tag">Clinical Excellence Since 1998</span>
+                    <h1 class="text-7xl md:text-[11rem] font-bold text-slate-900 leading-[0.8] tracking-tighter serif">
+                        Honest <br><span class="text-teal-700 italic font-normal">Dentistry</span><br>Perfected.
+                    </h1>
+                    <p class="text-xl md:text-2xl text-slate-600 leading-relaxed max-w-2xl font-light">
+                        Led by Dandenong's "Teeth Architect," we specialize in the structural restoration of complex dental cases and the gentle care of anxious families.
+                    </p>
+                    <div class="flex flex-wrap gap-6 pt-6">
+                        <button onclick="showPage('contact')" class="bg-[#0d5c63] text-white px-12 py-6 text-xs font-bold uppercase tracking-[0.3em] hover:bg-slate-900 transition-all shadow-2xl">Book Appointment</button>
+                        <button onclick="showPage('restorative')" class="border-2 border-slate-900 text-slate-900 px-12 py-6 text-xs font-bold uppercase tracking-[0.3em] hover:bg-slate-900 hover:text-white transition-all">Restorative Expertise</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="absolute bottom-20 right-12 hidden lg:flex flex-col gap-6 items-end">
+                <div class="bg-white/90 p-8 backdrop-blur shadow-2xl rounded-2xl border border-slate-100 max-w-xs">
+                    <div class="flex text-gold mb-2"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                    <p class="text-sm italic text-slate-700">"The Teeth Architect. Most Professional, Passionate, Honest and King of Dentistry."</p>
+                    <p class="text-[10px] uppercase font-bold text-slate-400 mt-4 tracking-widest">— ERIN RITTER</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dynamic Trust Bar -->
+        <section class="py-12 bg-slate-50 border-y border-slate-200">
+            <div class="container mx-auto px-6 flex flex-wrap justify-center gap-12 md:gap-32 grayscale opacity-60">
+                <div class="flex items-center gap-2 font-bold text-xs uppercase tracking-[0.3em]"><i class="fa-solid fa-medal text-xl"></i> ADA Member</div>
+                <div class="flex items-center gap-2 font-bold text-xs uppercase tracking-[0.3em]"><i class="fa-solid fa-award text-xl"></i> HICAPS Provider</div>
+                <div class="flex items-center gap-2 font-bold text-xs uppercase tracking-[0.3em]"><i class="fa-solid fa-check-circle text-xl"></i> QIP Accredited</div>
+                <div class="flex items-center gap-2 font-bold text-xs uppercase tracking-[0.3em]"><i class="fa-solid fa-heart-pulse text-xl"></i> DVA Friendly</div>
+            </div>
+        </section>
+
+        <!-- Feature Focus -->
+        <section class="py-32 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="grid lg:grid-cols-3 gap-16">
+                    <div class="space-y-6">
+                        <div class="w-16 h-[1px] bg-gold mb-8"></div>
+                        <h3 class="text-4xl serif font-bold">Heritage in Dandenong</h3>
+                        <p class="text-slate-500 leading-relaxed">Serving the local community for over 25 years with a focus on multi-generational family care and specialized restorative work.</p>
+                        <a href="javascript:void(0)" onclick="showPage('about')" class="text-xs font-bold uppercase tracking-widest text-teal-800 border-b-2 border-teal-100 hover:border-teal-800 transition-all">Discover the Practice</a>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="w-16 h-[1px] bg-gold mb-8"></div>
+                        <h3 class="text-4xl serif font-bold">Clinical Honesty</h3>
+                        <p class="text-slate-500 leading-relaxed">No aggressive sales. No unnecessary treatments. Just passionate dentistry focused on your biological health and structural longevity.</p>
+                        <a href="javascript:void(0)" onclick="showPage('general')" class="text-xs font-bold uppercase tracking-widest text-teal-800 border-b-2 border-teal-100 hover:border-teal-800 transition-all">Preventive Philosophy</a>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="w-16 h-[1px] bg-gold mb-8"></div>
+                        <h3 class="text-4xl serif font-bold">Architectural Precision</h3>
+                        <p class="text-slate-500 leading-relaxed">We handle complex cases that other clinics decline, reconstructing smiles with the eye of an architect and the skill of a master surgeon.</p>
+                        <a href="javascript:void(0)" onclick="showPage('restorative')" class="text-xs font-bold uppercase tracking-widest text-teal-800 border-b-2 border-teal-100 hover:border-teal-800 transition-all">Explore Case Mastery</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 2. GENERAL DENTISTRY PAGE -->
+    <main id="page-general" class="page-content">
+        <section class="py-40 bg-slate-50">
+            <div class="container mx-auto px-6 grid lg:grid-cols-2 gap-24 items-center">
+                <div class="space-y-10">
+                    <span class="section-tag">Daily Clinical Care</span>
+                    <h2 class="text-6xl font-bold serif text-slate-900 leading-tight">General & Preventive <br><span class="italic text-teal-700">Health Mastery.</span></h2>
+                    <p class="text-lg text-slate-600 leading-relaxed">Prevention is the cornerstone of the Barclay philosophy. We utilize high-resolution digital intraoral cameras to show you exactly what we see, involving you in the diagnostic process.</p>
+                    
+                    <div class="grid sm:grid-cols-2 gap-8">
+                        <div class="p-8 bg-white rounded-2xl shadow-sm border border-slate-100">
+                            <i class="fa-solid fa-tooth text-gold text-3xl mb-6 block"></i>
+                            <h4 class="font-bold text-lg mb-2">Air-Flow Hygiene</h4>
+                            <p class="text-sm text-slate-500">Advanced plaque removal using specialized powder-stream technology.</p>
+                        </div>
+                        <div class="p-8 bg-white rounded-2xl shadow-sm border border-slate-100">
+                            <i class="fa-solid fa-shield-virus text-gold text-3xl mb-6 block"></i>
+                            <h4 class="font-bold text-lg mb-2">Biomimetic Fillings</h4>
+                            <p class="text-sm text-slate-500">Tooth-colored restorations that mimic the natural strength of enamel.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="img-zoom-container shadow-2xl rounded-[3rem]">
+                    <img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&q=80&w=1000" class="h-[700px] w-full object-cover">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 3. RESTORATIVE ARCHITECTURE PAGE -->
+    <main id="page-restorative" class="page-content">
+        <section class="py-40 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="max-w-4xl mx-auto text-center mb-24">
+                    <span class="section-tag">Signature Specialty</span>
+                    <h2 class="text-6xl font-bold serif mb-8">Restorative Architecture.</h2>
+                    <p class="text-xl text-slate-500 leading-relaxed italic">"A smile is a structure; we ensure its foundations are unbreakable."</p>
+                </div>
+
+                <div class="grid lg:grid-cols-3 gap-12">
+                    <div class="bg-slate-50 p-12 rounded-3xl space-y-6 hover:shadow-xl transition-all">
+                        <span class="text-4xl text-teal-800"><i class="fa-solid fa-bridge"></i></span>
+                        <h3 class="text-3xl serif font-bold">Bridges & Crowns</h3>
+                        <p class="text-slate-500 text-sm">We use monolithic zirconia and e.max ceramics to create restorations that are virtually indistinguishable from natural teeth.</p>
+                    </div>
+                    <div class="bg-slate-50 p-12 rounded-3xl space-y-6 hover:shadow-xl transition-all">
+                        <span class="text-4xl text-teal-800"><i class="fa-solid fa-screwdriver-wrench"></i></span>
+                        <h3 class="text-3xl serif font-bold">Full Mouth Rehab</h3>
+                        <p class="text-slate-500 text-sm">Correcting bite collapse and extensive wear using the "Teeth Architect" methodology for total structural harmony.</p>
+                    </div>
+                    <div class="bg-slate-50 p-12 rounded-3xl space-y-6 hover:shadow-xl transition-all">
+                        <span class="text-4xl text-teal-800"><i class="fa-solid fa-dna"></i></span>
+                        <h3 class="text-3xl serif font-bold">Implant Restoration</h3>
+                        <p class="text-slate-500 text-sm">Biocompatible titanium foundations paired with artisanal porcelain crowns for a permanent solution to tooth loss.</p>
+                    </div>
+                </div>
+
+                <!-- Case Study Mock -->
+                <div class="mt-32 p-16 bg-slate-900 text-white rounded-[3rem] grid md:grid-cols-2 gap-16 items-center shadow-2xl">
+                    <div class="space-y-8">
+                        <span class="text-gold uppercase tracking-widest text-xs font-bold">Featured Reconstruction Case</span>
+                        <h3 class="text-5xl serif">Restoring a Masterpiece.</h3>
+                        <p class="opacity-70 leading-relaxed">This patient presented with 20 years of structural decay. Dr. Barclay designed a multi-phase architectural plan involving vertical dimension restoration and 14 handcrafted ceramic units.</p>
+                        <button class="bg-gold text-white px-8 py-4 text-[10px] font-bold uppercase tracking-widest rounded-sm">View Case Gallery</button>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="img-zoom-container h-64"><img src="https://images.unsplash.com/photo-1606811971618-4486d14f3f99?auto=format&fit=crop&q=80&w=400"></div>
+                        <div class="img-zoom-container h-64"><img src="https://images.unsplash.com/photo-1445527815219-ecbfec67492e?auto=format&fit=crop&q=80&w=400"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 4. COSMETIC SUITE PAGE -->
+    <main id="page-cosmetic" class="page-content">
+        <section class="py-40 bg-teal-50/30">
+            <div class="container mx-auto px-6 grid lg:grid-cols-2 gap-24 items-center">
+                <div class="img-zoom-container h-[700px] shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1593054992642-fe8c41f71df8?auto=format&fit=crop&q=80&w=1000" alt="Beautiful Smile">
+                </div>
+                <div class="space-y-12">
+                    <span class="section-tag">The Art of the Smile</span>
+                    <h2 class="text-6xl font-bold serif text-slate-900 leading-tight">Artisanal <br>Cosmetic Design.</h2>
+                    <p class="text-lg text-slate-600 leading-relaxed">We believe a cosmetic smile should never look "fake." Our goal is to enhance your natural beauty by following the Golden Ratio of facial symmetry.</p>
+                    
+                    <ul class="space-y-8">
+                        <li class="flex gap-6 items-start">
+                            <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-gold shadow-sm shrink-0 font-bold serif">01</div>
+                            <div>
+                                <h5 class="font-bold text-slate-900">Porcelain Veneers</h5>
+                                <p class="text-sm text-slate-500">Hand-layered ceramics that mimic the light-reflecting properties of natural enamel.</p>
+                            </div>
+                        </li>
+                        <li class="flex gap-6 items-start">
+                            <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-gold shadow-sm shrink-0 font-bold serif">02</div>
+                            <div>
+                                <h5 class="font-bold text-slate-900">In-Office Whitening</h5>
+                                <p class="text-sm text-slate-500">Safe, light-activated gels providing up to 8 shades of whitening in a single session.</p>
+                            </div>
+                        </li>
+                        <li class="flex gap-6 items-start">
+                            <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-gold shadow-sm shrink-0 font-bold serif">03</div>
+                            <div>
+                                <h5 class="font-bold text-slate-900">Invisible Orthodontics</h5>
+                                <p class="text-sm text-slate-500">Straighten your smile discreetly using clear aligner therapy.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 5. PEDIATRIC & ANXIETY PAGE -->
+    <main id="page-pediatric" class="page-content">
+        <section class="py-40 bg-white">
+            <div class="container mx-auto px-6 grid lg:grid-cols-2 gap-24 items-center">
+                <div class="space-y-10">
+                    <span class="section-tag">Gentle Specialization</span>
+                    <h2 class="text-6xl font-bold serif text-slate-900 leading-tight">Overcoming <br><span class="italic text-teal-700">Dental Phobia.</span></h2>
+                    <p class="text-lg text-slate-600 leading-relaxed">Dr. Barclay is widely recognized for his infinite patience with "terrified" patients. We don't rush. We listen. We create a safe space for those who have had previous traumatic dental experiences.</p>
+                    
+                    <div class="p-10 bg-teal-900 text-white rounded-[2rem] space-y-6 shadow-2xl relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-4 opacity-10 text-9xl"><i class="fa-solid fa-heart"></i></div>
+                        <h4 class="text-2xl serif font-bold">Family-First Comfort</h4>
+                        <ul class="space-y-4 text-sm opacity-80">
+                            <li><i class="fa-solid fa-check mr-2 text-gold"></i> Noise-canceling headphones for procedures</li>
+                            <li><i class="fa-solid fa-check mr-2 text-gold"></i> Step-by-step clinical explanations</li>
+                            <li><i class="fa-solid fa-check mr-2 text-gold"></i> Pediatric-specific gentle hygiene</li>
+                            <li><i class="fa-solid fa-check mr-2 text-gold"></i> Sedation options for surgical anxiety</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="img-zoom-container rounded-[3rem] h-[600px]">
+                    <img src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&q=80&w=1000" alt="Gentle Dentistry">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 6. TECHNOLOGY PAGE -->
+    <main id="page-tech" class="page-content">
+        <section class="py-40 bg-slate-900 text-white">
+            <div class="container mx-auto px-6 text-center mb-24">
+                <span class="section-tag text-teal-400">Digital Diagnostics</span>
+                <h2 class="text-7xl font-bold serif mb-8 leading-tight">The Future of <br>Precision Dentistry.</h2>
+            </div>
+            
+            <div class="container mx-auto px-6 grid md:grid-cols-2 lg:grid-cols-4 gap-12">
+                <div class="p-8 border border-white/10 rounded-3xl hover:bg-white/5 transition-all text-center">
+                    <i class="fa-solid fa-cube text-4xl text-gold mb-6"></i>
+                    <h4 class="font-bold mb-4">3D Scanning</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">No more messy impression molds. We use high-precision digital scanners for crowns and aligners.</p>
+                </div>
+                <div class="p-8 border border-white/10 rounded-3xl hover:bg-white/5 transition-all text-center">
+                    <i class="fa-solid fa-bolt text-4xl text-gold mb-6"></i>
+                    <h4 class="font-bold mb-4">Laser Therapy</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">Minimally invasive soft-tissue procedures for faster healing and reduced discomfort.</p>
+                </div>
+                <div class="p-8 border border-white/10 rounded-3xl hover:bg-white/5 transition-all text-center">
+                    <i class="fa-solid fa-microscope text-4xl text-gold mb-6"></i>
+                    <h4 class="font-bold mb-4">HD Intraoral Cameras</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">Live macro-photography allows you to see exactly what Dr. Barclay sees during your exam.</p>
+                </div>
+                <div class="p-8 border border-white/10 rounded-3xl hover:bg-white/5 transition-all text-center">
+                    <i class="fa-solid fa-radiation text-4xl text-gold mb-6"></i>
+                    <h4 class="font-bold mb-4">Digital X-Rays</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">90% less radiation than traditional film with instant, high-definition diagnostics.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 7. THE PRACTICE PAGE -->
+    <main id="page-about" class="page-content">
+        <section class="py-40">
+            <div class="container mx-auto px-6 grid lg:grid-cols-2 gap-24 items-center">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=1000" class="rounded-[3rem] shadow-2xl h-[700px] w-full object-cover">
+                    <div class="absolute -bottom-10 -right-10 bg-gold p-12 text-white rounded-tr-[5rem] shadow-2xl">
+                        <p class="text-5xl font-bold serif">25</p>
+                        <p class="text-[10px] uppercase font-bold tracking-[0.3em]">Years in Dandenong</p>
+                    </div>
+                </div>
+                <div class="space-y-10">
+                    <span class="section-tag">Heritage & Team</span>
+                    <h2 class="text-6xl font-bold serif text-slate-900 leading-tight">Heritage Heart, <br>Clinical Precision.</h2>
+                    <p class="text-lg text-slate-600 leading-relaxed italic">"Our team consists of passionate professionals who treat every patient like an extension of their own family."</p>
+                    <p class="text-slate-500 leading-relaxed">Founded by Dr. David Barclay, the practice has grown into a center for excellence in Victoria. We take immense pride in the fact that our patients have been with us for decades, trusting us with their smiles through every stage of life.</p>
+                    
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center py-4 border-b border-slate-100">
+                            <span class="font-bold text-slate-900">Dr. David Barclay</span>
+                            <span class="text-xs text-teal-700 font-bold uppercase tracking-widest">Principal Dentist</span>
+                        </div>
+                        <div class="flex justify-between items-center py-4 border-b border-slate-100">
+                            <span class="font-bold text-slate-900">Our Clinical Staff</span>
+                            <span class="text-xs text-teal-700 font-bold uppercase tracking-widest">Specialist Nurses & Hygienists</span>
+                        </div>
+                        <div class="flex justify-between items-center py-4 border-b border-slate-100">
+                            <span class="font-bold text-slate-900">Front of House</span>
+                            <span class="text-xs text-teal-700 font-bold uppercase tracking-widest">Patient Coordinators</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 8. PATIENT HUB PAGE -->
+    <main id="page-resources" class="page-content">
+        <section class="py-40 bg-slate-50">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-3xl mx-auto mb-20">
+                    <span class="section-tag">New Patient Hub</span>
+                    <h2 class="text-6xl font-bold serif">Your Journey <br>Starts Here.</h2>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-white p-12 rounded-3xl shadow-sm border border-slate-100">
+                        <h4 class="text-2xl font-bold serif mb-6">First Visit Expectations</h4>
+                        <ol class="space-y-4 text-sm text-slate-500 list-decimal pl-4">
+                            <li>Comprehensive medical history review</li>
+                            <li>Full periodontal (gum) health screening</li>
+                            <li>High-resolution intraoral imaging</li>
+                            <li>Personalized architectural treatment planning</li>
+                            <li>Detailed cost estimate & transparent pricing</li>
+                        </ol>
+                    </div>
+                    <div class="bg-white p-12 rounded-3xl shadow-sm border border-slate-100">
+                        <h4 class="text-2xl font-bold serif mb-6">Financial & Insurance</h4>
+                        <p class="text-sm text-slate-500 mb-8 leading-relaxed">We provide on-the-spot HICAPS claims for all major health funds. We are an honest practice—no hidden fees, ever.</p>
+                        <div class="flex flex-wrap gap-4">
+                            <span class="px-4 py-2 bg-slate-50 text-[10px] font-bold uppercase rounded-full">Bupa</span>
+                            <span class="px-4 py-2 bg-slate-50 text-[10px] font-bold uppercase rounded-full">Medibank</span>
+                            <span class="px-4 py-2 bg-slate-50 text-[10px] font-bold uppercase rounded-full">HCF</span>
+                            <span class="px-4 py-2 bg-slate-50 text-[10px] font-bold uppercase rounded-full">Medicare (CDBS)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-12 bg-teal-900 p-16 rounded-[3rem] text-center text-white space-y-8">
+                    <h3 class="text-4xl serif">Ready to Experience <br>True Dental Mastery?</h3>
+                    <button onclick="showPage('contact')" class="bg-gold text-white px-12 py-6 text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-white hover:text-teal-900 transition-all">Request New Patient Exam</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 9. EMERGENCY PAGE -->
+    <main id="page-emergency" class="page-content">
+        <section class="py-40 bg-red-50/30">
+            <div class="container mx-auto px-6 text-center">
+                <span class="bg-red-600 text-white px-6 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest mb-10 inline-block">Priority Triage</span>
+                <h2 class="text-7xl font-bold serif text-slate-900 mb-8">Dental Emergency?</h2>
+                <p class="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed mb-16">Severe pain, a knocked-out tooth, or structural failure? We prioritize emergency cases to ensure you are seen by a clinician as soon as possible.</p>
+                
+                <div class="grid md:grid-cols-3 gap-12 text-left max-w-6xl mx-auto">
+                    <div class="bg-white p-10 rounded-2xl shadow-xl border-t-4 border-red-600">
+                        <h5 class="font-bold text-lg mb-4">Knocked-Out Tooth</h5>
+                        <p class="text-sm text-slate-500">Keep the tooth in milk or saline. Do not touch the root. Contact us immediately for a 30-minute triage.</p>
+                    </div>
+                    <div class="bg-white p-10 rounded-2xl shadow-xl border-t-4 border-red-600">
+                        <h5 class="font-bold text-lg mb-4">Abscess / Infection</h5>
+                        <p class="text-sm text-slate-500">Swelling of the gums or face requires immediate antibiotic assessment and root canal triage.</p>
+                    </div>
+                    <div class="bg-white p-10 rounded-2xl shadow-xl border-t-4 border-red-600">
+                        <h5 class="font-bold text-lg mb-4">Broken Crown/Bridge</h5>
+                        <p class="text-sm text-slate-500">Structural failure of an architectural unit requires immediate repair to prevent nerve exposure.</p>
+                    </div>
+                </div>
+
+                <div class="mt-20">
+                    <a href="tel:+61397922639" class="text-5xl font-bold serif text-slate-900 hover:text-red-600 transition-all tracking-tight underline">(03) 9792 2639</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 10. CONTACT / FIND US PAGE -->
+    <main id="page-contact" class="page-content">
+        <section class="pt-40 pb-0">
+            <div class="container mx-auto px-6 grid lg:grid-cols-2 gap-24 items-center mb-24">
+                <div class="space-y-12">
+                    <span class="section-tag">Direct Communication</span>
+                    <h2 class="text-6xl font-bold serif text-slate-900">Let’s Start <br>the Conversation.</h2>
+                    <div class="space-y-8">
+                        <div class="flex gap-8 items-center border-b border-slate-100 pb-8">
+                            <div class="w-16 h-16 bg-teal-50 rounded-full flex items-center justify-center text-teal-800 text-2xl shadow-sm shrink-0"><i class="fa-solid fa-phone"></i></div>
+                            <div>
+                                <p class="text-[10px] font-bold text-gold uppercase tracking-widest mb-1">Reception Desk</p>
+                                <p class="text-3xl font-bold serif">(03) 9792 2639</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-8 items-center border-b border-slate-100 pb-8">
+                            <div class="w-16 h-16 bg-teal-50 rounded-full flex items-center justify-center text-teal-800 text-2xl shadow-sm shrink-0"><i class="fa-solid fa-location-arrow"></i></div>
+                            <div>
+                                <p class="text-[10px] font-bold text-gold uppercase tracking-widest mb-1">Dandenong Clinic</p>
+                                <p class="text-2xl font-bold serif">9 Stud Rd, Dandenong VIC 3175</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form class="bg-slate-50 p-12 rounded-[2rem] space-y-6 shadow-sm border border-slate-100" onsubmit="event.preventDefault(); alert('Expert Inquiry Received. Dr. Barclay’s coordinator will call you shortly.');">
+                        <h4 class="text-2xl serif font-bold mb-6">Digital Inquiry Portal</h4>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <input type="text" placeholder="Full Name" class="w-full p-4 rounded-xl bg-white border-none shadow-sm" required>
+                            <input type="tel" placeholder="Best Contact Number" class="w-full p-4 rounded-xl bg-white border-none shadow-sm" required>
+                        </div>
+                        <select class="w-full p-4 rounded-xl bg-white border-none shadow-sm appearance-none cursor-pointer">
+                            <option>Architectural / Restorative Work</option>
+                            <option>General Checkup & Clean</option>
+                            <option>Cosmetic Smile Design</option>
+                            <option>Emergency Care</option>
+                        </select>
+                        <textarea placeholder="Describe your dental goals..." rows="4" class="w-full p-4 rounded-xl bg-white border-none shadow-sm"></textarea>
+                        <button class="w-full bg-[#0d5c63] text-white py-6 rounded-xl font-bold text-xs uppercase tracking-[0.3em] shadow-xl hover:bg-slate-900 transition-all">Submit Professional Inquiry</button>
+                    </form>
+                </div>
+
+                <div class="relative h-full min-h-[600px] rounded-[3rem] overflow-hidden shadow-2xl border-8 border-white">
+                    <!-- Real-Time Google Map Embed for the specified location -->
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3145.483161689114!2d145.21543787673515!3d-37.96585144211611!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad6140411a14f49%3A0xe675a6c6e7a60b90!2s9%20Stud%20Rd%2C%20Dandenong%20VIC%203175%2C%20Australia!5e0!3m2!1sen!2sus!4v1709456789012!5m2!1sen!2sus" 
+                        class="absolute inset-0 w-full h-full grayscale-[0.2] contrast-[1.1]" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Global Footer -->
+    <footer class="bg-slate-900 text-white pt-32 pb-12">
+        <div class="container mx-auto px-6">
+            <div class="grid lg:grid-cols-4 gap-20 pb-20 border-b border-white/5">
+                <div class="col-span-2 space-y-10">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-teal-800 flex items-center justify-center font-bold serif text-3xl">B</div>
+                        <h2 class="text-3xl font-bold serif leading-none">Dr. David Barclay <br><span class="text-[10px] uppercase tracking-[0.5em] font-bold text-gold">And Associates</span></h2>
+                    </div>
+                    <p class="text-slate-500 max-w-md leading-relaxed">Dedicated to the architectural integrity of the human smile. Serving the Dandenong region with honest clinical expertise for over two decades.</p>
+                    <div class="flex gap-6">
+                        <button onclick="showPage('emergency')" class="text-red-400 font-bold uppercase text-[10px] tracking-widest hover:text-white transition-all"><i class="fa-solid fa-phone-volume mr-2"></i> After-Hours Emergency</button>
+                        <button onclick="showPage('contact')" class="text-gold font-bold uppercase text-[10px] tracking-widest hover:text-white transition-all"><i class="fa-solid fa-location-dot mr-2"></i> Directions</button>
+                    </div>
+                </div>
+                <div>
+                    <h5 class="font-bold text-xs uppercase tracking-widest text-teal-400 mb-8">Navigation</h5>
+                    <ul class="space-y-4 text-sm text-slate-500">
+                        <li><a href="#" onclick="showPage('general')" class="hover:text-white transition-all">General Dental</a></li>
+                        <li><a href="#" onclick="showPage('restorative')" class="hover:text-white transition-all">Restorative Work</a></li>
+                        <li><a href="#" onclick="showPage('cosmetic')" class="hover:text-white transition-all">Cosmetic Suite</a></li>
+                        <li><a href="#" onclick="showPage('pediatric')" class="hover:text-white transition-all">Anxiety & Kids</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-bold text-xs uppercase tracking-widest text-teal-400 mb-8">The Practice</h5>
+                    <ul class="space-y-4 text-sm text-slate-500">
+                        <li><a href="#" onclick="showPage('about')" class="hover:text-white transition-all">Our Story</a></li>
+                        <li><a href="#" onclick="showPage('tech')" class="hover:text-white transition-all">Digital Lab</a></li>
+                        <li><a href="#" onclick="showPage('resources')" class="hover:text-white transition-all">Patient Portal</a></li>
+                        <li><a href="#" onclick="showPage('contact')" class="hover:text-white transition-all">Appointment</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pt-12 flex flex-col md:row justify-between items-center text-[10px] font-bold text-slate-600 tracking-widest uppercase">
+                <p>&copy; 2024 Dr. David Barclay & Associates. QIP Accredited Dental Practice.</p>
+                <div class="flex gap-12 mt-6 md:mt-0">
+                    <a href="#">Privacy Protocol</a>
+                    <a href="#">Terms of Care</a>
+                    <a href="#">Clinical Standards</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // SPA Routing Logic
+        function showPage(pageId) {
+            const currentActive = document.querySelector('.page-content.active');
+            const target = document.getElementById('page-' + pageId);
+            
+            if (currentActive === target) return;
+
+            // Fade out
+            currentActive.style.opacity = '0';
+            currentActive.style.transform = 'translateY(-10px)';
+            
+            setTimeout(() => {
+                currentActive.classList.remove('active');
+                
+                // Reset scroll
+                window.scrollTo({ top: 0, behavior: 'instant' });
+
+                // Fade in
+                target.classList.add('active');
+                setTimeout(() => {
+                    target.style.opacity = '1';
+                    target.style.transform = 'translateY(0)';
+                }, 50);
+            }, 500);
+
+            // Close mobile menu if open
+            // document.getElementById('mobile-menu').classList.add('hidden');
+        }
+
+        // Handle URL parameters or initial state
+        window.onload = function() {
+            // Check for hashes or deep links if necessary
+            console.log("Dr. David Barclay & Associates Portal Loaded.");
+        }
+
+        // Desktop Nav Shrink on Scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('main-nav');
+            if (window.scrollY > 100) {
+                nav.style.padding = '0.75rem 3rem';
+                nav.style.boxShadow = '0 10px 30px rgba(0,0,0,0.08)';
+            } else {
+                nav.style.padding = '1rem 3rem';
+                nav.style.boxShadow = 'none';
+            }
+        });
+
+        function toggleMobileMenu() {
+            alert("This professional site uses a Single Page Architecture. Use the 'Expertise' or 'The Practice' links to navigate between all 10 detailed sections.");
+        }
+    </script>
+</body>
+</html>
